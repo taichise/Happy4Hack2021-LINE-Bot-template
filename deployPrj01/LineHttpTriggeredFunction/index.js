@@ -1,7 +1,7 @@
 //https://github.com/line/line-bot-sdk-nodejs/tree/next/examples/echo-bot
 //https://himanago.hatenablog.com/entry/2020/04/23/205202
 'use strict';
-
+const Obniz = require("obniz");
 const line = require('@line/bot-sdk');
 const createHandler = require("azure-function-express").createHandler;
 const express = require('express');
@@ -135,6 +135,16 @@ async function handleEvent(event) {
 
   // create a echoing text message
   const echo = { type: 'text', text: event.message.text };
+  
+    var obniz = new Obniz("29240510");
+  
+  obniz.onconnect = async function () {
+    var servo = obniz.wired("ServoMotor", {gnd:0,vcc:1,signal:2});
+    servo.angle(90.0); // half position
+    await obniz.wait(1000);
+    servo.off();
+    obniz.close()
+  }
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
