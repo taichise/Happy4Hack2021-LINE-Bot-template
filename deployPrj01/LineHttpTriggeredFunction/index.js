@@ -144,6 +144,7 @@ async function handleEvent(event) {
     obniz.close()
   }
   
+  
   // create a echoing text message
   const echo = { type: 'text', text: event.message.text };
   // use reply API
